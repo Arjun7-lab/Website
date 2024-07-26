@@ -1,0 +1,54 @@
+import pygame
+import math
+
+pygame.init()
+screen = pygame.display.set_mode((600, 400))
+pygame.display.set_caption("Planet Animation")
+
+# Colors
+white = (255, 255, 255)
+yellow = (255, 255, 0)
+blue = (0, 0, 255)
+red = (255, 0, 0)
+
+# Planet Properties
+sun_radius = 50
+planet1_radius = 20
+planet2_radius = 15
+
+# Initial Positions
+sun_x, sun_y = 300, 200
+planet1_x, planet1_y = 300 + 150, 200
+planet2_x, planet2_y = 300 + 100, 200
+
+# Orbital Speeds
+planet1_speed = 0.01
+planet2_speed = 0.02
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Clear the screen
+    screen.fill(white)
+
+    # Draw the Sun
+    pygame.draw.circle(screen, yellow, (sun_x, sun_y), sun_radius)
+
+    # Calculate planet positions (simplified circular orbits)
+    angle1 = math.fmod(pygame.time.get_ticks() * planet1_speed, 2 * math.pi)
+    planet1_x = sun_x + 150 * math.cos(angle1)
+    planet1_y = sun_y + 150 * math.sin(angle1)
+    pygame.draw.circle(screen, blue, (int(planet1_x), int(planet1_y)), planet1_radius)
+
+    angle2 = math.fmod(pygame.time.get_ticks() * planet2_speed, 2 * math.pi)
+    planet2_x = sun_x + 100 * math.cos(angle2)
+    planet2_y = sun_y + 100 * math.sin(angle2)
+    pygame.draw.circle(screen, red, (int(planet2_x), int(planet2_y)), planet2_radius)
+
+    # Update the display
+    pygame.display.flip()
+
+pygame.quit()
